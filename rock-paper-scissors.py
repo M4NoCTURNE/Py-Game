@@ -1,62 +1,48 @@
 import random
 
-def play_game():
+def play_best_of_three():
     options = ["rock", "paper", "scissors"]
-    
-    # 1. Initialize Score Variables
     user_wins = 0
     computer_wins = 0
-    ties = 0
     
-    print("Welcome to Rock, Paper, Scissors!")
-    print("Type 'rock', 'paper', or 'scissors' to play. Type 'q' to quit.")
+    print("--- Best of Three Mode ---")
+    print("First to 2 wins takes the match!")
 
-    while True:
+    # 1. Loop runs until someone reaches 2 wins
+    while user_wins < 2 and computer_wins < 2:
         user_choice = input("\nEnter your choice: ").lower()
         
-        if user_choice == 'q':
-            print("\n--- Final Results ---")
-            print(f"You won: {user_wins} times")
-            print(f"Computer won: {computer_wins} times")
-            print(f"Ties: {ties}")
-            
-            # Optional: Calculate win percentage
-            total_games = user_wins + computer_wins + ties
-            if total_games > 0:
-                win_percentage = (user_wins / total_games) * 100
-                print(f"Win Percentage: {win_percentage:.2f}%")
-            
-            print("Thanks for playing! Goodbye.")
-            break
-        
+        # Validation (removed 'q' check for strict best-of-3)
         if user_choice not in options:
-            print("Invalid choice. Please try again.")
+            print("Invalid choice. Try again.")
             continue
         
         computer_choice = random.choice(options)
+        print(f"You: {user_choice} | Computer: {computer_choice}")
         
-        print(f"You chose: {user_choice}")
-        print(f"Computer chose: {computer_choice}")
-        
-        # 2. Determine Winner and Update Scores
+        # Determine Round Winner
         if user_choice == computer_choice:
-            print("It's a tie!")
-            ties += 1  # Increment tie counter
-            
+            print("Tie! No points awarded.")
         elif (
             (user_choice == "rock" and computer_choice == "scissors") or
             (user_choice == "paper" and computer_choice == "rock") or
             (user_choice == "scissors" and computer_choice == "paper")
         ):
-            print("You win!")
-            user_wins += 1  # Increment user counter
-            
+            print("You win this round!")
+            user_wins += 1
         else:
-            print("You lose!")
-            computer_wins += 1  # Increment computer counter
-        
-        # 3. Display Current Scoreboard
-        print(f"Score -> You: {user_wins} | Computer: {computer_wins} | Ties: {ties}")
+            print("Computer wins this round!")
+            computer_wins += 1
+            
+        # Show current series score
+        print(f"Series Score -> You: {user_wins} | Computer: {computer_wins}")
+
+    # 2. Announce Series Winner (Runs automatically after loop ends)
+    print("\n--- Match Over ---")
+    if user_wins > computer_wins:
+        print("Congratulations! You won the best-of-three series!")
+    else:
+        print("Computer wins the best-of-three series. Better luck next time!")
 
 if __name__ == "__main__":
-    play_game()   
+    play_best_of_three()   
